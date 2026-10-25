@@ -6,6 +6,13 @@
     <title>Muslimbek Mamarasulov - Dasturlash va Texnologiyalar Ustozi</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- EmailJS kutubxonasi -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("fS2ejvFWUqIVIWZis");
+        })();
+    </script>
     <style>
         :root {
             --bg-dark: #080b14;
@@ -154,7 +161,6 @@
             margin-top: 30px;
         }
 
-        /* Bosiladigan Kurs Kartasi */
         .course-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
@@ -351,7 +357,6 @@
             box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
         }
 
-        /* Modal oyna - Ma'lumot va slaydlar uchun */
         .modal {
             display: none;
             position: fixed;
@@ -375,12 +380,6 @@
             width: 90%;
             position: relative;
             box-shadow: var(--neon-shadow);
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         .close-modal {
@@ -396,7 +395,6 @@
             color: var(--primary-cyan);
         }
 
-        /* Slayd elementlari */
         .slide-container {
             margin-top: 15px;
         }
@@ -407,7 +405,8 @@
             border: 1px solid var(--border-color);
             padding: 20px;
             border-radius: 12px;
-            min-height: 150px;
+            min-height: 140px;
+            line-height: 1.6;
         }
 
         .slide-item.active {
@@ -543,7 +542,6 @@
         <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Bolangizga nimalar oʻrgatilishini bilish uchun yoʻnalish ustiga bosing!</p>
         
         <div class="courses-grid">
-            
             <div class="course-card" onclick="openCourseInfo('web')">
                 <div>
                     <i class="fas fa-laptop-code card-icon"></i>
@@ -598,7 +596,6 @@
                 </div>
                 <div class="card-btn">Batafsil ko'rish <i class="fas fa-arrow-right"></i></div>
             </div>
-
         </div>
 
         <h2 class="section-title" id="info">GRAFIK VA MANZIL</h2>
@@ -628,7 +625,7 @@
             <h2 style="font-family: 'Orbitron'; font-size: 22px; text-align: center; margin-bottom: 10px; color: #fff;">KURSGA ARIZA TOPSHIRISH</h2>
             <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 25px;">Formani to'ldiring, tez orada siz bilan bog'lanamiz!</p>
             
-            <form id="telegramForm" onsubmit="sendTelegramMessage(event)">
+            <form id="emailForm" onsubmit="sendEmailMessage(event)">
                 <div class="form-group">
                     <label>Ota-ona yoki O'quvchining Ismi Familiyasi</label>
                     <input type="text" id="parentName" class="form-control" placeholder="Masalan: Ali Valiyev" required>
@@ -660,13 +657,8 @@
             <span class="close-modal" onclick="closeModal()">&times;</span>
             <h3 id="modalCourseTitle" style="font-family: 'Orbitron'; font-size: 20px; margin-bottom: 15px; color: var(--primary-cyan);">Kurs Haqida</h3>
             
-            <div class="slide-container" id="slideContainer">
-                <!-- Slaydlar dinamik ravishda JavaScript orqali joylashadi -->
-            </div>
-
-            <div class="slide-dots" id="slideDots">
-                <!-- Nuqtalar -->
-            </div>
+            <div class="slide-container" id="slideContainer"></div>
+            <div class="slide-dots" id="slideDots"></div>
 
             <div style="margin-top: 25px; text-align: center;">
                 <button class="btn-apply-header" onclick="scrollToApplyFromModal()">Farzandimni yozdirish</button>
@@ -686,10 +678,6 @@
     </footer>
 
     <script>
-        const BOT_TOKEN = "8996269690:AAE1chJIPKc1PkaRhhRAMAAYJmz13qPU928";
-        const CHAT_ID = "8068507813";
-
-        // Kurslar bo'yicha slayd ma'lumotlari ("Bolangizga shunaqa va shunaqalar o'rgatiladi")
         const courseData = {
             web: {
                 title: "WEB DASTURLASH (FRONTEND)",
@@ -771,34 +759,34 @@
             }
         }
 
-        function sendDataToTelegram(name, phone, course, btnId, formId) {
-            const btn = document.getElementById(btnId);
+        function sendEmailMessage(e) {
+            e.preventDefault();
+            const name = document.getElementById('parentName').value;
+            const phone = document.getElementById('parentPhone').value;
+            const course = document.getElementById('courseSelect').value;
+            
+            const btn = document.getElementById('submitBtn');
             btn.disabled = true;
             btn.innerText = "YUBORILMOQDA...";
 
-            const text = `📩 <b>YANGI ARIZA KELDI!</b>\n\n👤 <b>Ismi:</b> ${name}\n📞 <b>Tel:</b> ${phone}\n📚 <b>Kurs:</b> ${course}`;
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=HTML`;
+            const templateParams = {
+                name: name,
+                title: course,
+                email: phone,
+                message: `Yangi ariza keldi!\n\nIsmi: ${name}\nTel: ${phone}\nKurs: ${course}`
+            };
 
-            fetch(url, { mode: 'no-cors' })
-                .then(() => {
-                    alert("Arizangiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.");
-                    document.getElementById(formId).reset();
-                })
-                .catch(err => {
-                    alert("Xatolik yuz berdi. Internetingizni tekshiring.");
+            emailjs.send('service_pwen7p4', 'l6hy8nh', templateParams)
+                .then(function(response) {
+                    alert("Arizangiz muvaffaqiyatli yuborildi va emailingizga jo'natildi!");
+                    document.getElementById('emailForm').reset();
+                }, function(error) {
+                    alert("Yuborishda xatolik yuz berdi. Iltimos qaytadan urinib ko'ring.");
                 })
                 .finally(() => {
                     btn.disabled = false;
                     btn.innerText = "ARIZANI YUBORISH";
                 });
-        }
-
-        function sendTelegramMessage(e) {
-            e.preventDefault();
-            const name = document.getElementById('parentName').value;
-            const phone = document.getElementById('parentPhone').value;
-            const course = document.getElementById('courseSelect').value;
-            sendDataToTelegram(name, phone, course, 'submitBtn', 'telegramForm');
         }
     </script>
 </body>
