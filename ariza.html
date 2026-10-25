@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muslimbek Mamarasulov - Dasturlash va Texnologiyalar Ustozi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #080b14;
+            --card-bg: rgba(16, 23, 42, 0.75);
+            --primary-cyan: #00f2fe;
+            --primary-blue: #4facfe;
+            --accent-purple: #7f00ff;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --neon-shadow: 0 0 20px rgba(0, 242, 254, 0.35);
+            --border-color: rgba(0, 242, 254, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(127, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 254, 0.15) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 11, 20, 0.85);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-cyan);
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+        }
+
+        .btn-apply-header {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            color: #000;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: var(--neon-shadow);
+            transition: 0.3s transform, 0.3s box-shadow;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-apply-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+        }
+
+        .hero {
+            padding: 60px 0;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .hero-title-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid var(--primary-cyan);
+            border-radius: 20px;
+            color: var(--primary-cyan);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .hero-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 40px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 10px;
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 20px;
+            color: var(--primary-cyan);
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        /* Bosiladigan Kurs Kartasi */
+        .course-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s transform, 0.3s border-color, 0.3s box-shadow;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .course-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-cyan), var(--accent-purple));
+        }
+
+        .course-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--primary-cyan);
+            box-shadow: var(--neon-shadow);
+        }
+
+        .card-icon {
+            font-size: 32px;
+            color: var(--primary-cyan);
+            margin-bottom: 15px;
+        }
+
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .tech-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .tech-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #e2e8f0;
+        }
+
+        .card-btn {
+            color: var(--primary-cyan);
+            font-weight: 700;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: auto;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            text-align: center;
+            margin: 60px 0 30px;
+            background: linear-gradient(135deg, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .info-box-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+
+        .info-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 242, 254, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--primary-cyan);
+            flex-shrink: 0;
+        }
+
+        .info-content h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .info-content p {
+            color: var(--text-muted);
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .application-section {
+            background: linear-gradient(135deg, rgba(16, 23, 42, 0.9), rgba(8, 11, 20, 0.95));
+            border: 1px solid var(--primary-cyan);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 650px;
+            margin: 40px auto 80px;
+            box-shadow: var(--neon-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-cyan);
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        select.form-control option {
+            background-color: var(--bg-dark);
+            color: #fff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--accent-purple));
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: var(--neon-shadow);
+            transition: 0.3s;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.7);
+        }
+
+        /* Modal oyna - Ma'lumot va slaydlar uchun */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--bg-dark);
+            border: 1px solid var(--primary-cyan);
+            padding: 35px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            box-shadow: var(--neon-shadow);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .close-modal:hover {
+            color: var(--primary-cyan);
+        }
+
+        /* Slayd elementlari */
+        .slide-container {
+            margin-top: 15px;
+        }
+
+        .slide-item {
+            display: none;
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 150px;
+        }
+
+        .slide-item.active {
+            display: block;
+        }
+
+        .slide-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .dot.active {
+            background: var(--primary-cyan);
+            box-shadow: 0 0 10px var(--primary-cyan);
+            width: 25px;
+            border-radius: 5px;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 30px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .contact-btn:hover {
+            border-color: var(--primary-cyan);
+            color: var(--primary-cyan);
+            box-shadow: var(--neon-shadow);
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-name {
+                font-size: 30px;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <div class="logo">BEK ACADEMY</div>
+            <ul class="nav-links">
+                <li><a href="#about">Ustoz Haqida</a></li>
+                <li><a href="#courses">Yo'nalishlar</a></li>
+                <li><a href="#info">Jadval & Manzil</a></li>
+            </ul>
+            <button class="btn-apply-header" onclick="document.getElementById('apply').scrollIntoView({behavior: 'smooth'})">Ariza Topshirish</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="hero" id="about">
+            <div>
+                <span class="hero-title-badge">IT & TEXNOLOGIYA TA'LIMI</span>
+                <h1 class="hero-name">Muslimbek Mamarasulov</h1>
+                <div class="hero-subtitle">DASTURLASH VA TEXNOLOGIYALAR USTOZI / TECH TRAINER</div>
+                <p style="color: var(--text-muted); line-height: 1.7; margin-bottom: 25px;">
+                    Yosh avlodga zamonaviy IT ko'nikmalari, web dasturlash va mikrokontrollerlar orqali elektronika va robototexnika asoslarini amaliy loyihalar bilan o'rgataman.
+                </p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn-apply-header" onclick="document.getElementById('apply').scrollIntoView({behavior: 'smooth'})" style="padding: 14px 28px; font-size: 16px;">Ariza Topshirish</button>
+                    <a href="https://t.me/Bek_Academyy" target="_blank" class="contact-btn">
+                        <i class="fab fa-telegram"></i> Telegram Kanal
+                    </a>
+                </div>
+            </div>
+            <div>
+                <div style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 20px; padding: 30px; backdrop-filter: blur(10px); box-shadow: var(--neon-shadow);">
+                    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                        <i class="fas fa-code" style="font-size: 35px; color: var(--primary-cyan);"></i>
+                        <div>
+                            <h3 style="color: #fff; font-family: 'Orbitron'; font-size: 18px;">AMALIY TA'LIM</h3>
+                            <p style="color: var(--text-muted); font-size: 13px;">Nazariya va Real Loyihalar Bilan</p>
+                        </div>
+                    </div>
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+                        <p style="color: var(--text-main); font-size: 14px; margin-bottom: 10px;">
+                            <i class="fas fa-check-circle" style="color: var(--primary-cyan);"></i> Web Dasturlash (HTML, CSS, JS)
+                        </p>
+                        <p style="color: var(--text-main); font-size: 14px; margin-bottom: 10px;">
+                            <i class="fas fa-check-circle" style="color: var(--primary-cyan);"></i> Mikrokontrollerlar (ESP32, Arduino)
+                        </p>
+                        <p style="color: var(--text-main); font-size: 14px;">
+                            <i class="fas fa-check-circle" style="color: var(--primary-cyan);"></i> Aqlli Tizimlar & Avtomatlashtirish
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <h2 class="section-title" id="courses">O'QUV YO'NALISHLARI</h2>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 30px;">Bolangizga nimalar oʻrgatilishini bilish uchun yoʻnalish ustiga bosing!</p>
+        
+        <div class="courses-grid">
+            
+            <div class="course-card" onclick="openCourseInfo('web')">
+                <div>
+                    <i class="fas fa-laptop-code card-icon"></i>
+                    <h3 class="card-title">WEB DASTURLASH (FRONTEND)</h3>
+                    <p class="card-desc">Interaktiv veb-saytlar yaratish, HTML, CSS, JavaScript va DOM muloqoti asoslarini o'rganish.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                    </div>
+                </div>
+                <div class="card-btn">Batafsil ko'rish <i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="course-card" onclick="openCourseInfo('micro')">
+                <div>
+                    <i class="fas fa-microchip card-icon"></i>
+                    <h3 class="card-title">MIKROKONTROLLERLAR</h3>
+                    <p class="card-desc">ESP32 va Arduino asosidagi aqlli loyihalar, datchiklar bilan ishlash va avtomatlashtirish.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">ESP32</span>
+                        <span class="tech-tag">Arduino</span>
+                        <span class="tech-tag">Sensors</span>
+                    </div>
+                </div>
+                <div class="card-btn">Batafsil ko'rish <i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="course-card" onclick="openCourseInfo('electronics')">
+                <div>
+                    <i class="fas fa-plug card-icon"></i>
+                    <h3 class="card-title">MIKROKONTROLLERLAR & ELEKTRONIKA</h3>
+                    <p class="card-desc">ESP32 va Arduino asosidagi aqlli loyihalar, datchiklar va elektron sxemalar yig'ish.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">IoT</span>
+                        <span class="tech-tag">Circuitry</span>
+                        <span class="tech-tag">Hardware</span>
+                    </div>
+                </div>
+                <div class="card-btn">Batafsil ko'rish <i class="fas fa-arrow-right"></i></div>
+            </div>
+
+            <div class="course-card" onclick="openCourseInfo('practice')">
+                <div>
+                    <i class="fas fa-rocket card-icon"></i>
+                    <h3 class="card-title">PRACTICE & PROJECTS</h3>
+                    <p class="card-desc">Real dunyodagi muammolarni hal qiluvchi va mualliflik loyihalari ustida amaliy ishlash.</p>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Real Projects</span>
+                        <span class="tech-tag">Teamwork</span>
+                    </div>
+                </div>
+                <div class="card-btn">Batafsil ko'rish <i class="fas fa-arrow-right"></i></div>
+            </div>
+
+        </div>
+
+        <h2 class="section-title" id="info">GRAFIK VA MANZIL</h2>
+        <div class="info-box-grid">
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="far fa-calendar-alt"></i>
+                </div>
+                <div class="info-content">
+                    <h4>TA'LIM GRAFIGI</h4>
+                    <p>Seshanba va Payshanba kunlari<br><strong style="color: var(--primary-cyan);">Soat: 15:00</strong></p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="info-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="info-content">
+                    <h4>MANZIL</h4>
+                    <p>Farg'ona shahar,<br>Yormozor bog'cha maktabi</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="application-section" id="apply">
+            <h2 style="font-family: 'Orbitron'; font-size: 22px; text-align: center; margin-bottom: 10px; color: #fff;">KURSGA ARIZA TOPSHIRISH</h2>
+            <p style="text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 25px;">Formani to'ldiring, tez orada siz bilan bog'lanamiz!</p>
+            
+            <form id="telegramForm" onsubmit="sendTelegramMessage(event)">
+                <div class="form-group">
+                    <label>Ota-ona yoki O'quvchining Ismi Familiyasi</label>
+                    <input type="text" id="parentName" class="form-control" placeholder="Masalan: Ali Valiyev" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Telefon Raqam</label>
+                    <input type="tel" id="parentPhone" class="form-control" placeholder="+998 90 123 45 67" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Qaysi kursga a'zo bo'lmoqchisiz?</label>
+                    <select id="courseSelect" class="form-control" required>
+                        <option value="Web Dasturlash (Frontend)">Web Dasturlash (Frontend)</option>
+                        <option value="Mikrokontrollerlar & Arduino">Mikrokontrollerlar & Arduino</option>
+                        <option value="Mikrokontrollerlar & Elektronika">Mikrokontrollerlar & Elektronika</option>
+                        <option value="Practice & Projects">Practice & Projects</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">ARIZANI YUBORISH</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Slayd va ma'lumotlar chiqadigan Modal Oyna -->
+    <div class="modal" id="infoModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h3 id="modalCourseTitle" style="font-family: 'Orbitron'; font-size: 20px; margin-bottom: 15px; color: var(--primary-cyan);">Kurs Haqida</h3>
+            
+            <div class="slide-container" id="slideContainer">
+                <!-- Slaydlar dinamik ravishda JavaScript orqali joylashadi -->
+            </div>
+
+            <div class="slide-dots" id="slideDots">
+                <!-- Nuqtalar -->
+            </div>
+
+            <div style="margin-top: 25px; text-align: center;">
+                <button class="btn-apply-header" onclick="scrollToApplyFromModal()">Farzandimni yozdirish</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="contact-links">
+                <a href="tel:+998505063456" class="contact-btn"><i class="fas fa-phone"></i> +998 50 506 3456</a>
+                <a href="https://t.me/Bek_Academyy" target="_blank" class="contact-btn"><i class="fab fa-telegram"></i> @Bek_Academyy</a>
+                <a href="https://linkedin.com/in/muslimbek" target="_blank" class="contact-btn"><i class="fab fa-linkedin"></i> LinkedIn</a>
+            </div>
+            <p>&copy; 2026 Muslimbek Mamarasulov | Bek Academy. Barcha huquqlar himoyalangan.</p>
+        </div>
+    </footer>
+
+    <script>
+        const BOT_TOKEN = "8996269690:AAE1chJIPKc1PkaRhhRAMAAYJmz13qPU928";
+        const CHAT_ID = "8068507813";
+
+        // Kurslar bo'yicha slayd ma'lumotlari ("Bolangizga shunaqa va shunaqalar o'rgatiladi")
+        const courseData = {
+            web: {
+                title: "WEB DASTURLASH (FRONTEND)",
+                slides: [
+                    "🚀 <b>Bolangizga nima o'rgatiladi?</b><br><br>Farzandingiz zamonaviy veb-saytlar va internet sahifalarini noldan yaratishni o'rganadi. HTML va CSS orqali dizayn tuzish sirlari o'rgatiladi.",
+                    "💻 <b>Interaktiv saytlar va JavaScript</b><br><br>JavaScript tili orqali saytlarni jonlantirish, tugmalar ishlashi, animatsiyalar va foydalanuvchi bilan muloqot qiluvchi dasturlar tuzish amalda ko'rsatiladi.",
+                    "🎯 <b>Natija:</b><br><br>Kurs yakunida har bir o'quvchi o'zining shaxsiy portfolio veb-saytini yaratib tayyor mutaxassis darajasiga chiqadi!"
+                ]
+            },
+            micro: {
+                title: "MIKROKONTROLLERLAR & ARDUINO",
+                slides: [
+                    "⚡ <b>Bolangizga nima o'rgatiladi?</b><br><br>ESP32 va Arduino mikrokontrollerlari yordamida real elektron qurilmalar yasash va ularni dasturlash asoslari o'rgatiladi.",
+                    "🔌 <b>Aqlli datchiklar va sxemalar</b><br><br>Har xil datchiklar (harorat, harakat, yorug'lik) bilan ishlash, ularni sxemaga ulash va avtomatlashtirilgan tizimlar yaratish.",
+                    "🎯 <b>Natija:</b><br><br>O'quvchi o'z qo'llari bilan real hayotda ishlatiladigan aqlli qurilmalar (masalan, aqlli uy elementlari va qo'ng'iroq sistemalari) yasaydi!"
+                ]
+            },
+            electronics: {
+                title: "MIKROKONTROLLERLAR & ELEKTRONIKA",
+                slides: [
+                    "🛠️ <b>Bolangizga nima o'rgatiladi?</b><br><br>Elektronika olamiga ilk qadam! Sxemalar yig'ish, tok, kuchlanish va mikrochiplar bilan ishlash qoidalari o'rgatiladi.",
+                    "💡 <b>Amaliy sxemalar va qurilmalar</b><br><br>Turli qismlarni bir-biriga ulash, lehimlash asoslari va mikrokontroller xotirasiga kod yozib ularni harakatga keltirish.",
+                    "🎯 <b>Natija:</b><br><br>Bolangiz texnik fikrlashni, mantiqiy tahlil qilishni va hardware (qurilma) yaratishni mukammal o'zlashtiradi."
+                ]
+            },
+            practice: {
+                title: "PRACTICE & PROJECTS",
+                slides: [
+                    "🏆 <b>Bolangizga nima o'rgatiladi?</b><br><br>Olingan nazariy bilimlarni to'g'ridan-to'g'ri real loyihalar va amaliy topshiriqlarda qo'llash ko'nikmasi shakllantiriladi.",
+                    "🤝 <b>Jamoaviy ish va muammolarni yechish</b><br><br>Real hayotdagi qiyinchiliklarga IT yechimlar topish, jamoa bo'lib loyiha ustida ishlash va o'z loyihasini taqdim etish (Pitch) o'rgatiladi.",
+                    "🎯 <b>Natija:</b><br><br>Farzandingizda real portfel va mustaqil ravishda murakkab loyihalarni oxirigacha yetkazish tajribasi paydo bo'ladi!"
+                ]
+            }
+        };
+
+        let currentSlide = 0;
+        let activeSlidesList = [];
+
+        function openCourseInfo(courseKey) {
+            const data = courseData[courseKey];
+            document.getElementById('modalCourseTitle').innerText = data.title;
+            activeSlidesList = data.slides;
+            currentSlide = 0;
+            renderSlides();
+            document.getElementById('infoModal').style.display = 'flex';
+        }
+
+        function renderSlides() {
+            const container = document.getElementById('slideContainer');
+            const dotsContainer = document.getElementById('slideDots');
+            
+            container.innerHTML = `<div class="slide-item active">${activeSlidesList[currentSlide]}</div>`;
+            
+            let dotsHTML = '';
+            for(let i = 0; i < activeSlidesList.length; i++) {
+                dotsHTML += `<span class="dot ${i === currentSlide ? 'active' : ''}" onclick="goToSlide(${i})"></span>`;
+            }
+            dotsContainer.innerHTML = dotsHTML;
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            renderSlides();
+        }
+
+        function closeModal() {
+            document.getElementById('infoModal').style.display = 'none';
+        }
+
+        function scrollToApplyFromModal() {
+            closeModal();
+            document.getElementById('apply').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('infoModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        function sendDataToTelegram(name, phone, course, btnId, formId) {
+            const btn = document.getElementById(btnId);
+            btn.disabled = true;
+            btn.innerText = "YUBORILMOQDA...";
+
+            const text = `📩 <b>YANGI ARIZA KELDI!</b>\n\n👤 <b>Ismi:</b> ${name}\n📞 <b>Tel:</b> ${phone}\n📚 <b>Kurs:</b> ${course}`;
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}&parse_mode=HTML`;
+
+            fetch(url, { mode: 'no-cors' })
+                .then(() => {
+                    alert("Arizangiz muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanamiz.");
+                    document.getElementById(formId).reset();
+                })
+                .catch(err => {
+                    alert("Xatolik yuz berdi. Internetingizni tekshiring.");
+                })
+                .finally(() => {
+                    btn.disabled = false;
+                    btn.innerText = "ARIZANI YUBORISH";
+                });
+        }
+
+        function sendTelegramMessage(e) {
+            e.preventDefault();
+            const name = document.getElementById('parentName').value;
+            const phone = document.getElementById('parentPhone').value;
+            const course = document.getElementById('courseSelect').value;
+            sendDataToTelegram(name, phone, course, 'submitBtn', 'telegramForm');
+        }
+    </script>
+</body>
+</html>
